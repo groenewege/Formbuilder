@@ -386,6 +386,72 @@ class Formbuilder{
 		return  $ret;
 	}
 
+	function date_field( $var, $label, $default='', $lblOptions=null, $fieldOptions=null )
+	{
+
+		$fieldOptions['id'] = $this->_auto_id($fieldOptions, $var);
+
+		$fieldOpts = $this->attribute_string( $fieldOptions );
+
+		if( isset( $_POST[ $var ] ))
+		{
+			$default = $_POST[ $var ];
+		}
+		elseif( isset( $this->defaults[ $var ] ))
+		{
+			$default = $this->defaults[ $var ];
+		}
+
+		$ret = '';
+
+		if( $label != NULL )
+		{
+			$ret .= $this->form_label( $label, $fieldOptions['id'], $lblOptions )."\n";
+		}
+		
+		$this->CI->load->library('formdate');
+        $lang = $this->CI->config->item('language');
+        if ($lang == 'french') {
+            $locale = 'fr_FR.UTF-8';
+        } elseif ($lang == 'dutch') {
+            $locale = 'nl_NL.UTF-8';
+        } else {
+            $locale = 'en_US';
+        }
+        $formdate[$var] = new FormDate();
+        $formdate[$var]->setLocale($locale);
+        $formdate[$var]->hour['format'] = 24;
+        $formdate[$var]->year['extra'] = $fieldOpts;
+        $formdate[$var]->month['extra'] = $fieldOpts;
+        $formdate[$var]->day['extra'] = $fieldOpts;
+        $formdate[$var]->config['prefix'] = $var.'_';
+
+        if ($default && $default != '0000-00-00') {
+          $datetime = strtotime($default);
+          $formdate[$var]->day['selected']    = date('d', $datetime);
+          $formdate[$var]->month['selected']  = date('m', $datetime);
+          $formdate[$var]->year['selected']   = date('Y', $datetime);
+        }
+
+        $ret .= $formdate[$var]->selectDay() . ' ';
+        $ret .= $formdate[$var]->selectMonth() . ' ';
+        $ret .= $formdate[$var]->selectYear();
+
+		$ret = $this->add_error( $var, $ret, 'drop_down' );
+		return  $ret;
+	}
+
+	function plaintext( $var, $label=null, $lblOptions=null, $fieldOptions=null )
+	{
+
+		$fieldOptions['id'] = $this->_auto_id($fieldOptions, $var);
+
+		$ret = $this->form_label( $label, $fieldOptions['id'], $lblOptions )."\n";
+		$ret .= "\t\t<p".$this->attribute_string( $fieldOptions ).">".$this->get_val( $var )."</p>\n";
+		$ret = $this->add_error( $var, $ret, 'text' );
+		return  $ret;
+	}
+
 	private function _auto_id ($options = NULL, $var = NULL)
 	{
 
