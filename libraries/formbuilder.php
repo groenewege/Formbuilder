@@ -140,6 +140,17 @@ class Formbuilder{
 		return  $ret;
 	}
 
+	function file( $var, $label=null, $lblOptions=null, $fieldOptions=null )
+	{
+
+		$fieldOptions['id'] = $this->_auto_id($fieldOptions, $var);
+
+		$ret = $this->form_label( $label, $fieldOptions['id'], $lblOptions )."\n";
+		$ret .= "\t\t<input type=\"file\" name=\"$var\" ".$this->attribute_string( $fieldOptions )."/>\n";
+		$ret = $this->add_error( $var, $ret, 'text' );
+		return  $ret;
+	}
+
 	function hidden( $var, $default='' )
 	{
 		
