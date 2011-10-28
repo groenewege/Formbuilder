@@ -323,10 +323,12 @@ class Formbuilder{
 			$atts.=' checked="checked"';
 		}
 
-		$ret = "\t\t<input id=\"".$fieldOptions['id']."\" type=\"checkbox\" name=\"$var\" value=\"$value\" $atts/>\n";
-		$ret .= $this->form_label( $label, $fieldOptions['id'], $lblOptions )."\n";
-		$ret = $this->add_error( $var, $ret, 'checkbox' );
-		return  $ret;
+		$ret = "\t\t<label><input id=\"".$fieldOptions['id']."\" type=\"checkbox\" name=\"$var\" value=\"$value\" $atts/>\n";
+        //$ret .= $this->form_label( $label, $fieldOptions['id'], $lblOptions )."\n";
+        $ret .= "<span>$label</span>";
+        $ret = $this->add_error( $var, $ret, 'checkbox' );
+        $ret .= '</label>';
+        return  $ret;
 	}
 
 	function radio( $var, $label, $value, $default=FALSE, $lblOptions=null, $fieldOptions=null )
