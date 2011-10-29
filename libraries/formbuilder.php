@@ -494,6 +494,7 @@ class Formbuilder{
 
 		$ret = $this->form_label( $label, $fieldOptions['id'], $lblOptions )."\n";
 		$ret .= "\t\t<p".$this->attribute_string( $fieldOptions ).">".$this->get_val( $var )."</p>\n";
+		$ret .= $this->hidden( $var);
 		$ret = $this->add_error( $var, $ret, 'text' );
 		return  $ret;
 	}
