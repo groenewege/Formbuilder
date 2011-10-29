@@ -219,20 +219,13 @@ class Formbuilder{
 
 		if( isset( $_POST[ $var] ) )
 		{
-			$return_val = form_prep( $this->CI->input->post( $var ));
-
+			$return_val = $this->CI->input->post( $var );
 		}
 		elseif( $default != null )
 		{
 			$return_val = form_prep( $default );
-
 		}
-		else
-		{
-			$return_val =  '';
-		}
-		
-		if( is_array($this->defaults) )
+		elseif( is_array($this->defaults) )
 		{
 			if(isset( $this->defaults[ $var ])) {
 				$return_val =  form_prep($this->defaults[ $var ]);
@@ -243,8 +236,12 @@ class Formbuilder{
 		elseif( is_object($this->defaults) )
 		{
 			$return_val = form_prep($this->defaults->$var);
-		} 
-
+		}
+		else
+		{
+			$return_val =  '';
+		}
+		
 		if( !$boolean )
 		{
 			return $return_val;
@@ -342,6 +339,36 @@ class Formbuilder{
         return  $ret;
 	}
 
+	function multi_checkbox( $var, $label, $value, $default=FALSE, $lblOptions=null, $fieldOptions=null )
+	{
+
+		$fieldOptions['id'] = $this->_auto_id( $fieldOptions, $var.'_'.$value );
+
+		$atts = $this->attribute_string( $fieldOptions );
+		// no longer need the rand
+		// $rand = random_string( 'alnum', 5 );
+
+		if( isset( $this->defaults[ $var ] ) and is_array($this->defaults[ $var ]) and in_array($value, $this->defaults[ $var ]) )
+		{
+			$atts.=' checked="checked"';
+		}
+		else if( isset( $_POST[ $var ] ) and is_array($_POST[ $var ]) and in_array($value, $_POST[ $var ]) )
+		{
+			$atts.=' checked="checked"';
+		}
+		elseif( $default == TRUE )
+		{
+			$atts.=' checked="checked"';
+		}
+
+		$ret = "\t\t<label><input id=\"".$fieldOptions['id']."\" type=\"checkbox\" name=\"".$var."[]\" value=\"$value\" $atts/>\n";
+        //$ret .= $this->form_label( $label, $fieldOptions['id'], $lblOptions )."\n";
+        $ret .= "<span>$label</span>";
+        $ret = $this->add_error( $var, $ret, 'checkbox' );
+        $ret .= '</label>';
+        return  $ret;
+	}
+
 	function radio( $var, $label, $value, $default=FALSE, $lblOptions=null, $fieldOptions=null )
 	{
 
@@ -409,6 +436,12 @@ class Formbuilder{
 		if( isset( $_POST[ $var ] ))
 		{
 			$default = $_POST[ $var ];
+		} 
+		elseif( isset( $_POST[ $var.'_year' ] ))
+		{
+			$default = 	$_POST[ $var.'_year' ].'-'.
+						$_POST[ $var.'_month' ].'-'.
+						$_POST[ $var.'_day' ];
 		}
 		elseif( isset( $this->defaults[ $var ] ))
 		{
