@@ -409,9 +409,13 @@ class Formbuilder{
 		{
 			$default = $_POST[ $var ];
 		}
-		elseif( isset( $this->defaults[ $var ] ))
+		elseif( is_array($this->defaults) && isset( $this->defaults[ $var ] ))
 		{
 			$default = $this->defaults[ $var ];
+		}
+		elseif( is_object($this->defaults) && isset( $this->defaults->$var ))
+		{
+			$default = $this->defaults->$var;
 		}
 
 		$ret = '';
@@ -443,9 +447,13 @@ class Formbuilder{
 						$_POST[ $var.'_month' ].'-'.
 						$_POST[ $var.'_day' ];
 		}
-		elseif( isset( $this->defaults[ $var ] ))
+		elseif( is_array($this->defaults) && isset( $this->defaults[ $var ] ))
 		{
 			$default = $this->defaults[ $var ];
+		}
+		elseif( is_object($this->defaults) && isset( $this->defaults->$var ))
+		{
+			$default = $this->defaults->$var;
 		}
 
 		$ret = '';
