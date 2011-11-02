@@ -157,7 +157,7 @@ class Formbuilder{
 		$attr = '';
 		
 		if ($fieldOptions['id'] = $this->_auto_id( NULL, $var ))
-			$attr = $this->attribute_string($fieldOptions);
+		$attr = $this->attribute_string($fieldOptions);
 
 		if( !empty( $default ))
 		{
@@ -303,7 +303,7 @@ class Formbuilder{
 		{
 			foreach ($attributes as $key => $val ):
 			if (!empty($val))
-				$str .= ' '.$key.'="'.$val.'"';
+			$str .= ' '.$key.'="'.$val.'"';
 			endforeach;
 		}
 		return $str;
@@ -332,11 +332,11 @@ class Formbuilder{
 		}
 
 		$ret = "\t\t<label><input id=\"".$fieldOptions['id']."\" type=\"checkbox\" name=\"$var\" value=\"$value\" $atts/>\n";
-        //$ret .= $this->form_label( $label, $fieldOptions['id'], $lblOptions )."\n";
-        $ret .= "<span>$label</span>";
-        $ret = $this->add_error( $var, $ret, 'checkbox' );
-        $ret .= '</label>';
-        return  $ret;
+		//$ret .= $this->form_label( $label, $fieldOptions['id'], $lblOptions )."\n";
+		$ret .= "<span>$label</span>";
+		$ret = $this->add_error( $var, $ret, 'checkbox' );
+		$ret .= '</label>';
+		return  $ret;
 	}
 
 	function multi_checkbox( $var, $label, $value, $default=FALSE, $lblOptions=null, $fieldOptions=null )
@@ -362,11 +362,11 @@ class Formbuilder{
 		}
 
 		$ret = "\t\t<label><input id=\"".$fieldOptions['id']."\" type=\"checkbox\" name=\"".$var."[]\" value=\"$value\" $atts/>\n";
-        //$ret .= $this->form_label( $label, $fieldOptions['id'], $lblOptions )."\n";
-        $ret .= "<span>$label</span>";
-        $ret = $this->add_error( $var, $ret, 'checkbox' );
-        $ret .= '</label>';
-        return  $ret;
+		//$ret .= $this->form_label( $label, $fieldOptions['id'], $lblOptions )."\n";
+		$ret .= "<span>$label</span>";
+		$ret = $this->add_error( $var, $ret, 'checkbox' );
+		$ret .= '</label>';
+		return  $ret;
 	}
 
 	function radio( $var, $label, $value, $default=FALSE, $lblOptions=null, $fieldOptions=null )
@@ -444,8 +444,8 @@ class Formbuilder{
 		elseif( isset( $_POST[ $var.'_year' ] ))
 		{
 			$default = 	$_POST[ $var.'_year' ].'-'.
-						$_POST[ $var.'_month' ].'-'.
-						$_POST[ $var.'_day' ];
+			$_POST[ $var.'_month' ].'-'.
+			$_POST[ $var.'_day' ];
 		}
 		elseif( is_array($this->defaults) && isset( $this->defaults[ $var ] ))
 		{
@@ -464,70 +464,70 @@ class Formbuilder{
 		}
 		
 		$this->CI->load->library('formdate');
-        $lang = $this->CI->config->item('language');
-        if ($lang == 'french') {
-            $locale = 'fr_FR.UTF-8';
-        } elseif ($lang == 'dutch') {
-            $locale = 'nl_NL.UTF-8';
-        } else {
-            $locale = 'en_US';
-        }
-        $formdate[$var] = new FormDate();
-        $formdate[$var]->setLocale($locale);
-        $formdate[$var]->hour['format'] = 24;
-        $formdate[$var]->year['extra'] = $fieldOpts;
-        $formdate[$var]->month['extra'] = $fieldOpts;
-        $formdate[$var]->day['extra'] = $fieldOpts;
-        $formdate[$var]->config['prefix'] = $var.'_';
+		$lang = $this->CI->config->item('language');
+		if ($lang == 'french') {
+			$locale = 'fr_FR.UTF-8';
+			} elseif ($lang == 'dutch') {
+				$locale = 'nl_NL.UTF-8';
+			} else {
+				$locale = 'en_US';
+			}
+			$formdate[$var] = new FormDate();
+			$formdate[$var]->setLocale($locale);
+			$formdate[$var]->hour['format'] = 24;
+			$formdate[$var]->year['extra'] = $fieldOpts;
+			$formdate[$var]->month['extra'] = $fieldOpts;
+			$formdate[$var]->day['extra'] = $fieldOpts;
+			$formdate[$var]->config['prefix'] = $var.'_';
 
-        if ($default && $default != '0000-00-00') {
-          $datetime = strtotime($default);
-          $formdate[$var]->day['selected']    = date('d', $datetime);
-          $formdate[$var]->month['selected']  = date('m', $datetime);
-          $formdate[$var]->year['selected']   = date('Y', $datetime);
-        }
+			if ($default && $default != '0000-00-00') {
+				$datetime = strtotime($default);
+				$formdate[$var]->day['selected']    = date('d', $datetime);
+				$formdate[$var]->month['selected']  = date('m', $datetime);
+				$formdate[$var]->year['selected']   = date('Y', $datetime);
+			}
 
-        $ret .= $formdate[$var]->selectDay() . ' ';
-        $ret .= $formdate[$var]->selectMonth() . ' ';
-        $ret .= $formdate[$var]->selectYear();
+			$ret .= $formdate[$var]->selectDay() . ' ';
+			$ret .= $formdate[$var]->selectMonth() . ' ';
+			$ret .= $formdate[$var]->selectYear();
 
-		$ret = $this->add_error( $var, $ret, 'drop_down' );
-		return  $ret;
-	}
-
-	function plaintext( $var, $label=null, $lblOptions=null, $fieldOptions=null )
-	{
-
-		$fieldOptions['id'] = $this->_auto_id($fieldOptions, $var);
-
-		$ret = $this->form_label( $label, $fieldOptions['id'], $lblOptions )."\n";
-		$ret .= "\t\t<p".$this->attribute_string( $fieldOptions ).">".$this->get_val( $var )."</p>\n";
-		$ret .= $this->hidden( $var);
-		$ret = $this->add_error( $var, $ret, 'text' );
-		return  $ret;
-	}
-
-	private function _auto_id ($options = NULL, $var = NULL)
-	{
-
-		if( is_array($options) && isset($options['id']) && !empty($options['id']) )
-		{
-			return $options['id'];
+			$ret = $this->add_error( $var, $ret, 'drop_down' );
+			return  $ret;
 		}
-		else if( $this->form_id && !empty( $var )) 
-		{
-			return $this->form_id . "-" . $var;
-		}
-		else 
-		{
-			return FALSE;
-		}
-	}
-	
-	public function submit( $var, $label, $options=array() )
-	{
-		$atts = $this->attribute_string( $options );
-		return "\t<input type=\"submit\" name=\"$var\" value=\"$label\" $atts/>\n";
-	}
 
-} // end Formbuilder class
+		function plaintext( $var, $label=null, $lblOptions=null, $fieldOptions=null )
+		{
+
+			$fieldOptions['id'] = $this->_auto_id($fieldOptions, $var);
+
+			$ret = $this->form_label( $label, $fieldOptions['id'], $lblOptions )."\n";
+			$ret .= "\t\t<p".$this->attribute_string( $fieldOptions ).">".$this->get_val( $var )."</p>\n";
+			$ret .= $this->hidden( $var);
+			$ret = $this->add_error( $var, $ret, 'text' );
+			return  $ret;
+		}
+
+		private function _auto_id ($options = NULL, $var = NULL)
+		{
+
+			if( is_array($options) && isset($options['id']) && !empty($options['id']) )
+			{
+				return $options['id'];
+			}
+			else if( $this->form_id && !empty( $var )) 
+			{
+				return $this->form_id . "-" . $var;
+			}
+			else 
+			{
+				return FALSE;
+			}
+		}
+		
+		public function submit( $var, $label, $options=array() )
+		{
+			$atts = $this->attribute_string( $options );
+			return "\t<input type=\"submit\" name=\"$var\" value=\"$label\" $atts/>\n";
+		}
+
+	} // end Formbuilder class
