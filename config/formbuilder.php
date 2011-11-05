@@ -4,7 +4,7 @@
 * the class of the div wrapping the label and input element.
 * if you would not like it contained in a div, set the variable to NULL
 */
-$config[ 'formbuilder_container_class' ] = 'clearfix';
+$config[ 'formbuilder_container_class' ] = 'form_row';
 /*
 * field error class is the class of the div wrapping field level error on validation failing
 */
