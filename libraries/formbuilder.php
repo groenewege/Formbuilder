@@ -315,14 +315,21 @@ class Formbuilder{
 		$fieldOptions['id'] = $this->_auto_id( $fieldOptions, $var );
 
 		$atts = $this->attribute_string( $fieldOptions );
-		// no longer need the rand
-		// $rand = random_string( 'alnum', 5 );
 
-		if( isset( $this->defaults[ $var ] ) and $this->defaults[ $var ] == $value )
+		if( isset( $_POST[ $var ] ))
 		{
-			$atts.=' checked="checked"';
+			$default_var = $_POST[ $var ];
 		}
-		else if( isset( $_POST[ $var ] ) and $_POST[ $var ] == $value )
+		elseif( is_array($this->defaults) && isset( $this->defaults[ $var ] ))
+		{
+			$default_var = $this->defaults[ $var ];
+		}
+		elseif( is_object($this->defaults) && isset( $this->defaults->$var ))
+		{
+			$default_var = $this->defaults->$var;
+		}
+
+		if( isset( $default_var ) and $default_var == $value )
 		{
 			$atts.=' checked="checked"';
 		}
@@ -332,7 +339,6 @@ class Formbuilder{
 		}
 
 		$ret = "\t\t<label><input id=\"".$fieldOptions['id']."\" type=\"checkbox\" name=\"$var\" value=\"$value\" $atts/>\n";
-		//$ret .= $this->form_label( $label, $fieldOptions['id'], $lblOptions )."\n";
 		$ret .= "<span>$label</span>";
 		$ret = $this->add_error( $var, $ret, 'checkbox' );
 		$ret .= '</label>';
@@ -345,14 +351,21 @@ class Formbuilder{
 		$fieldOptions['id'] = $this->_auto_id( $fieldOptions, $var.'_'.$value );
 
 		$atts = $this->attribute_string( $fieldOptions );
-		// no longer need the rand
-		// $rand = random_string( 'alnum', 5 );
 
-		if( isset( $this->defaults[ $var ] ) and is_array($this->defaults[ $var ]) and in_array($value, $this->defaults[ $var ]) )
+		if( isset( $_POST[ $var ] ))
 		{
-			$atts.=' checked="checked"';
+			$default_var = $_POST[ $var ];
 		}
-		else if( isset( $_POST[ $var ] ) and is_array($_POST[ $var ]) and in_array($value, $_POST[ $var ]) )
+		elseif( is_array($this->defaults) && isset( $this->defaults[ $var ] ))
+		{
+			$default_var = $this->defaults[ $var ];
+		}
+		elseif( is_object($this->defaults) && isset( $this->defaults->$var ))
+		{
+			$default_var = $this->defaults->$var;
+		}
+
+		if( isset( $default_var ) and is_array($default_var) and in_array($value, $default_var) )
 		{
 			$atts.=' checked="checked"';
 		}
@@ -362,7 +375,6 @@ class Formbuilder{
 		}
 
 		$ret = "\t\t<label><input id=\"".$fieldOptions['id']."\" type=\"checkbox\" name=\"".$var."[]\" value=\"$value\" $atts/>\n";
-		//$ret .= $this->form_label( $label, $fieldOptions['id'], $lblOptions )."\n";
 		$ret .= "<span>$label</span>";
 		$ret = $this->add_error( $var, $ret, 'checkbox' );
 		$ret .= '</label>';
@@ -375,13 +387,21 @@ class Formbuilder{
 		$fieldOptions['id'] = $this->_auto_id($fieldOptions, $var);
 
 		$atts = $this->attribute_string($fieldOptions);
-		//$rand = random_string('alnum', 5 );
 
-		if( isset( $this->defaults[ $var ] ) and $this->defaults[ $var ] == $value )
+		if( isset( $_POST[ $var ] ))
 		{
-			$atts.=' checked="checked"';
+			$default_var = $_POST[ $var ];
 		}
-		else if( isset( $_POST[ $var ] ) and $_POST[ $var ] == $value )
+		elseif( is_array($this->defaults) && isset( $this->defaults[ $var ] ))
+		{
+			$default_var = $this->defaults[ $var ];
+		}
+		elseif( is_object($this->defaults) && isset( $this->defaults->$var ))
+		{
+			$default_var = $this->defaults->$var;
+		}
+
+		if( isset( $default_var ) and $default_var == $value )
 		{
 			$atts.=' checked="checked"';
 		}
