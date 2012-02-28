@@ -4,7 +4,7 @@
 * the class of the div wrapping the label and input element.
 * if you would not like it contained in a div, set the variable to NULL
 */
-$config[ 'formbuilder_container_class' ] = 'form_row';
+$config[ 'formbuilder_container_class' ] = NULL;
 /*
 * field error class is the class of the div wrapping field level error on validation failing
 */
@@ -15,7 +15,7 @@ $config[ 'formbuilder_error_class' ] = 'error';
 * 2 is between the label and the input
 * 3 is after the input
 */
-$config[ 'formbuilder_error_position' ] = 3;
+$config[ 'formbuilder_error_position' ] = 2;
 /*
 * if auto_id is active and you set an html id for your form specifying
 * $params parameter in the open() method, all fields ids will be

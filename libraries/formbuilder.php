@@ -100,7 +100,7 @@ class Formbuilder{
 
 	}
 
-	function open( $action, $multipart=FALSE, $params=array() )
+	function open( $action, $multipart=FALSE, $params='' )
 	{
 
 		if ($this->options['auto_id'] == TRUE && isset($params['id']) && !empty($params['id']))
@@ -338,7 +338,7 @@ class Formbuilder{
 			$atts.=' checked="checked"';
 		}
 
-		$ret = "\t\t<label><input id=\"".$fieldOptions['id']."\" type=\"checkbox\" name=\"$var\" value=\"$value\" $atts/>\n";
+		$ret = "\t\t<label class=\"checkbox\"><input id=\"".$fieldOptions['id']."\" type=\"checkbox\" name=\"$var\" value=\"$value\" $atts/>\n";
 		$ret .= "<span>$label</span>";
 		$ret = $this->add_error( $var, $ret, 'checkbox' );
 		$ret .= '</label>';
@@ -374,7 +374,7 @@ class Formbuilder{
 			$atts.=' checked="checked"';
 		}
 
-		$ret = "\t\t<label><input id=\"".$fieldOptions['id']."\" type=\"checkbox\" name=\"".$var."[]\" value=\"$value\" $atts/>\n";
+		$ret = "\t\t<label class=\"checkbox\"><input id=\"".$fieldOptions['id']."\" type=\"checkbox\" name=\"".$var."[]\" value=\"$value\" $atts/>\n";
 		$ret .= "<span>$label</span>";
 		$ret = $this->add_error( $var, $ret, 'checkbox' );
 		$ret .= '</label>';
@@ -411,9 +411,10 @@ class Formbuilder{
 		}
 
 
-		$ret = "\t\t<input id=\"".$fieldOptions['id']."\" type=\"radio\" name=\"$var\" value=\"$value\" $atts/>\n";
-		$ret .= $this->form_label( $label, $fieldOptions['id'], $lblOptions )."\n";
+		$ret = "\t\t<label class=\"radio\"><input id=\"".$fieldOptions['id']."\" type=\"radio\" name=\"$var\" value=\"$value\" $atts/>\n";
+		$ret .= "<span>$label</span>";
 		$ret = $this->add_error( $var, $ret, 'radio' );
+		$ret .= '</label>';
 		return  $ret;
 	}
 
